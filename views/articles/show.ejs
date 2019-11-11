@@ -1,0 +1,15 @@
+<%- include ../includes/header %>
+
+<div class="card mb-3">
+    <img src="<%= article.image %>" class="card-img-top h-100" alt="...">
+    <div class="card-body">
+        <h5 class="card-title text-center mb-4 mb-md-5"><%= article.title %></h5>
+        <p class="card-text"><%= article.content %></p>
+        <p class="card-text"><small class="text-muted">
+            Published - 
+            <%= article.created.getMonth() + 1 %>/<%= article.created.getDate() %>/<%= article.created.getYear() + 1900 %>
+        </small></p>
+    </div>
+</div>
+
+<%- include ../includes/footer %>

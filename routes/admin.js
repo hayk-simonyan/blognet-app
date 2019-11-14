@@ -5,25 +5,25 @@ const middlewareObj = require('../middleware');
 
 router.route('/articles/new')
   // NEW
-  .get(middlewareObj.checkLoggedIn, adminController.getNew);
+  .get(middlewareObj.isLoggedIn, adminController.getNew);
 
 router.route('/articles')
   // CREATE
-  .post(adminController.postCreate);
+  .post(middlewareObj.isLoggedIn, adminController.postCreate);
 
 router.route('/articles/my-posts')
-  .get(adminController.getMyPosts);
+  .get(middlewareObj.isLoggedIn, adminController.getMyPosts);
 
 
 router.route('/articles/:id/edit')
   // EDIT
-  .get(middlewareObj.checkLoggedIn, adminController.getEdit);
+  .get(middlewareObj.checkArticleOwnership, adminController.getEdit);
 
 router.route('/articles/:id')
   // UPDATE
-  .put(adminController.putUpdate)
+  .put(middlewareObj.checkArticleOwnership, adminController.putUpdate)
   // DELETE
   // .delete(middlewareObj.checkArticlerOwnership, adminController.deleteDelete);
-  .delete(adminController.deleteDelete);
+  .delete(middlewareObj.checkArticleOwnership, adminController.deleteDelete);
 
 module.exports = router;

@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 
 const errorObj = require('./middleware/errors');
 const articlesRouuter = require('./routes/articles');
@@ -45,6 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
+app.use(flash());
 
 //express-session config
 app.use(session({
@@ -92,6 +94,13 @@ if(!isProduction) {
 app.use(errorObj.logErrors);
 app.use(errorObj.clientErrorHandler);
 app.use(errorObj.errorHandler);
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  next();
+});
 
 app.use(adminRouter);
 app.use(articlesRouuter);

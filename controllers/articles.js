@@ -7,7 +7,7 @@ exports.getHomePage = (req, res) => {
 exports.getIndex = (req, res, next) => {
     Article.find({})
         .then(allArticles => {
-            res.render('articles/index', { allArticles: allArticles, user: req.user });
+            res.render('articles/index', { allArticles: allArticles });
         })
         .catch(err => {
             const error = new Error(err);
@@ -21,7 +21,7 @@ exports.getShow = (req, res, next) => {
         // .populate('comments')
         .exec()
             .then(foundArticle => {
-                res.render('articles/show', { article: foundArticle, user: req.user });
+                res.render('articles/show', { article: foundArticle });
             })
             .catch(err => {
                 const error = new Error(err);

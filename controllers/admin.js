@@ -2,7 +2,7 @@ const Article = require('../models/article');
 const User = require('../models/user');
 
 exports.getNew = (req, res) => {
-    res.render('admin/new', { user: req.user });
+    res.render('admin/new');
 };
 
 exports.postCreate = (req, res, next) => {
@@ -33,7 +33,7 @@ exports.postCreate = (req, res, next) => {
 exports.getMyPosts = (req, res) => {
     Article.find({'author.id': req.user._id})
         .then(adminArticles => {
-            res.render('admin/my-posts', { adminArticles: adminArticles, user: req.user })
+            res.render('admin/my-posts', { adminArticles: adminArticles })
         })
         .catch(err => {
             const error = new Error(err);
@@ -45,7 +45,8 @@ exports.getMyPosts = (req, res) => {
 exports.getEdit = (req, res, next) => {
     Article.findById(req.params.id)
         .then(article => {
-            res.render('admin/edit', { article: article, user: req.user  });
+            req.flash('success', 'Article was successfully edited');
+            res.render('admin/edit', { article: article });
         })
         .catch(err => {
             const error = new Error(err);

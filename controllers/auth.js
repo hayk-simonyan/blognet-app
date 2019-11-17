@@ -33,13 +33,15 @@ userController.getLogin = (req, res) => {
 
 userController.postLogin = (req, res) => {
     passport.authenticate('local')(req, res, () => {
-        res.redirect('/');
+        req.flash('success', 'Welcome back ' + req.user.username)
+        res.redirect('/articles');
     });
 };
 
 userController.logout = (req, res) => {
     req.logout();
-    res.redirect('/');
+    req.flash('success', 'Logged out. See You soon');
+    res.redirect('/articles');
 };
 
 module.exports = userController;

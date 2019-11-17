@@ -21,6 +21,7 @@ exports.postCreate = (req, res, next) => {
     };
     Article.create(newArticle)
         .then(article => {
+            req.flash('success', 'Your article was created');
             res.redirect('/articles');
         })
         .catch(err => {
@@ -45,7 +46,6 @@ exports.getMyPosts = (req, res) => {
 exports.getEdit = (req, res, next) => {
     Article.findById(req.params.id)
         .then(article => {
-            req.flash('success', 'Article was successfully edited');
             res.render('admin/edit', { article: article });
         })
         .catch(err => {
@@ -70,7 +70,8 @@ exports.putUpdate = (req, res, next) => {
             article.content = updatedContent;
             return article.save()
                 .then(editedArticle => {
-                    console.log('updated')
+                    console.log('updated');
+                    req.flash('success', 'Article was successfully edited');
                     res.redirect('/articles/' + req.params.id)
                 })
         })
@@ -84,6 +85,7 @@ exports.putUpdate = (req, res, next) => {
 exports.deleteDelete = (req, res, next) => {
     Article.findByIdAndRemove(req.params.id)
         .then(deleted => {
+            req.flash('success', 'Article was successfully deleted')
             res.redirect('/articles/my-posts')
         })
         .catch(err => {

@@ -9,15 +9,15 @@ const articleSchema = new Schema({
         minlength: 2,
         maxlength: 30
     },
+    image: {
+        type: String,
+        required: true
+    },
     content: {
         type: String,
         required: true,
         minlength: 100,
         maxlength: 20000
-    },
-    image: {
-        type: String,
-        required: true
     },
     created: { 
         type: Date, 

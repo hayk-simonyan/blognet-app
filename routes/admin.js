@@ -4,23 +4,23 @@ const router = express.Router();
 const adminController = require('../controllers/admin');
 const middlewareObj = require('../middleware');
 
-router.route('/articles/new')
+router.route('/new')
   // NEW
   .get(middlewareObj.isLoggedIn, adminController.getNew);
 
-router.route('/articles')
+router.route('/')
   // CREATE
   .post(middlewareObj.isLoggedIn, adminController.postCreate);
 
-router.route('/articles/my-posts')
+router.route('/my-posts')
   .get(middlewareObj.isLoggedIn, adminController.getMyPosts);
 
 
-router.route('/articles/:id/edit')
+router.route('/:id/edit')
   // EDIT
   .get(middlewareObj.checkArticleOwnership, adminController.getEdit);
 
-router.route('/articles/:id')
+router.route('/:id')
   // UPDATE
   .put(middlewareObj.checkArticleOwnership, adminController.putUpdate)
   // DELETE

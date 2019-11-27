@@ -18,6 +18,8 @@ const errorObj = require('./middleware/errors');
 const articlesRouuter = require('./routes/articles');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
+const commentsRouter = require('./routes/comments');
+const errorsRouter = require('./routes/errors');
 const User = require('./models/user');
 
 //Configure mongoose's promise to global promise
@@ -102,24 +104,30 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(adminRouter);
+app.use('/articles', adminRouter);
 app.use(articlesRouuter);
 app.use(authRouter);
+app.use('/articles/:id/comments', commentsRouter);
+app.use(errorsRouter);
+
+// app.use((error, req, res, next) => {
+//   res.status(500).render("500");
+// });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
+// app.use((req, res, next) => {
+//   next(createError(404));
+// });
 
 // error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use((err, req, res, next) => {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 module.exports = app;

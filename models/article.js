@@ -34,7 +34,13 @@ const articleSchema = new Schema({
             maxlength: 20,
             minlength: 2
         }
-    }
+    },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 });
 const Article = mongoose.model('Article', articleSchema);
 

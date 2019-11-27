@@ -18,7 +18,7 @@ exports.getIndex = (req, res, next) => {
 
 exports.getShow = (req, res, next) => {
     Article.findById(req.params.id)
-        // .populate('comments')
+        .populate('comments')
         .exec()
             .then(foundArticle => {
                 res.render('articles/show', { article: foundArticle });

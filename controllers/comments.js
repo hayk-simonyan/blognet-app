@@ -1,11 +1,20 @@
+const { validationResult } = require('express-validator');
+
 const Article = require('../models/article');
 const Comment = require('../models/comments');
 
 exports.postCreateComment = (req, res, next) => {
     Article.findById(req.params.id)
         .then(article => {
-            console.log(req.body.content)
-            const content = req.body.content;
+            const validationErrors = validationResult(req);
+
+            const { content } = req.body
+            
+            if (!validationErrors.isEmpty()) {
+                req.flash('error', validationErrors.array()[0].msg)
+                return res.status(422).redirect('back');
+            }
+
             const author = {
                 id: req.user._id,
                 username: req.user.username
@@ -14,6 +23,7 @@ exports.postCreateComment = (req, res, next) => {
                 content: content,
                 author: author
             };
+
             Comment.create(newComment)
                 .then(comment => {
                     comment.author.id = req.user._id;
@@ -40,7 +50,15 @@ exports.postCreateComment = (req, res, next) => {
 };
 
 exports.putUpdateComment = (req, res, next) => {
-    const content = req.body.content;
+    const validationErrors = validationResult(req);
+
+    const { content } = req.body
+    
+    if (!validationErrors.isEmpty()) {
+        req.flash('error', validationErrors.array()[0].msg)
+        return res.status(422).redirect('back');
+    }
+
     const author = {
         id: req.user._id,
         username: req.user.username
@@ -50,6 +68,7 @@ exports.putUpdateComment = (req, res, next) => {
         author: author
     };
     const previousComment = req.params.commentId;
+    
     Comment.findByIdAndUpdate(previousComment, newComment)
         .then(updatedComment => {
             req.flash('success', 'Your comment was updated');

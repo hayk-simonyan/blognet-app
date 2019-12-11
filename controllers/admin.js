@@ -1,14 +1,37 @@
+const { validationResult } = require('express-validator');
+const flash = require('connect-flash');
+
 const Article = require('../models/article');
 const User = require('../models/user');
 
 exports.getNew = (req, res) => {
-    res.render('admin/new');
+    const prevInputs = {
+        title: '',
+        image: '',
+        content: ''
+    }
+    
+    res.render('admin/new', { prevInputs: prevInputs, validationErrors: [] });
 };
 
 exports.postCreate = (req, res, next) => {
-    const title = req.body.title;
-    const image = req.body.image;
-    const content = req.body.content;
+    const validationErrors = validationResult(req);
+
+    const { title, image, content } = req.body
+
+    const prevInputs = {
+        title: title,
+        image: image,
+        content: content
+    }
+    
+    if (!validationErrors.isEmpty()) {
+        req.flash('error', validationErrors.array()[0].msg)
+        return res.status(422).render(
+            'admin/new', 
+            { prevInputs: prevInputs, validationErrors: validationErrors.array() });
+    }
+
     const author = {
         id: req.user._id,
         username: req.user.username
@@ -19,6 +42,7 @@ exports.postCreate = (req, res, next) => {
         content: content,
         author: author
     };
+
     Article.create(newArticle)
         .then(article => {
             req.flash('success', 'Your article was created');
@@ -46,7 +70,7 @@ exports.getMyPosts = (req, res) => {
 exports.getEdit = (req, res, next) => {
     Article.findById(req.params.id)
         .then(article => {
-            res.render('admin/edit', { article: article });
+            res.render('admin/edit', { article: article, validationErrors: [] });
         })
         .catch(err => {
             const error = new Error(err);
@@ -56,18 +80,31 @@ exports.getEdit = (req, res, next) => {
 };
 
 exports.putUpdate = (req, res, next) => {
-    console.log(req.body.title)
-    const updatedTitle = req.body.title;
-    const updatedImage = req.body.image;
-    const updatedContent = req.body.content;
+    const validationErrors = validationResult(req);
+
+    const { title, image, content } = req.body
+
+    const prevInputs = {
+        title: title,
+        image: image,
+        content: content
+    }
+    
+    if (!validationErrors.isEmpty()) {
+        req.flash('error', validationErrors.array()[0].msg)
+        return res.status(422).render(
+            'admin/new', 
+            { prevInputs: prevInputs, validationErrors: validationErrors.array() });
+    }
+
     Article.findById(req.params.id)
         .then(article => {
             if(!article) {
                 console.log('not found')
             }
-            article.title = updatedTitle;
-            article.image = updatedImage;
-            article.content = updatedContent;
+            article.title = title;
+            article.image = image;
+            article.content = content;
             return article.save()
                 .then(editedArticle => {
                     console.log('updated');

@@ -1,21 +1,52 @@
 <%- include ./includes/header %>
 
 <div class="m-3 m-md-5">
-    <form action="/register" method="POST">
+    <form action="/register" method="POST" novalidate>
         <div class="m-md-3">
             <h1 class="text-primary my-md-3">Sign Up</h1>
             <div class="form-group">
                 <label for="inputUsername">Username</label>
-                <input type="text" class="form-control" name="username" id="inputUsername" placeholder="Username" required>
+                <input 
+                    class="form-control <%= validationErrors.find(e => e.param === 'username') ? 'border border-danger' : '' %>" type="text" 
+                    name="username" 
+                    id="inputUsername" 
+                    placeholder="Username" 
+                    value="<%= prevInputs.username %>"
+                />
             </div>
-            <div class="form-row" action="/register" method="POST">
-                <div class="form-group col-md-6">
+            <div class="form-group">
                 <label for="inputEmail4">Email</label>
-                <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="Email" required>
+                <input 
+                    class="form-control <%= validationErrors.find(e => e.param === 'email') ? 'border border-danger' : '' %>" type="text" 
+                    type="email" 
+                    name="email" 
+                    id="inputEmail4" 
+                    placeholder="Email" 
+                    value="<%= prevInputs.email %>"
+                />
+            </div>
+            <div class="form-row" action="/register" method="POST" novalidate>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword4">Password</label>
+                    <input 
+                        type="password"
+                        class="form-control <%= validationErrors.find(e => e.param === 'password') ? 'border border-danger' : '' %>" type="text" 
+                        name="password" 
+                        id="inputPassword4" 
+                        placeholder="Password"
+                        value="<%= prevInputs.password %>"
+                    />
                 </div>
                 <div class="form-group col-md-6">
-                <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" name="password" id="inputPassword4" placeholder="Password" required>
+                    <label for="inputPassword4">Confirm password</label>
+                    <input 
+                        type="password"
+                        class="form-control <%= validationErrors.find(e => e.param === 'confirmPassword') ? 'border border-danger' : '' %>" type="text" 
+                        name="confirmPassword" 
+                        id="inputPassword4" 
+                        placeholder="Confirm Password"
+                        value="<%= prevInputs.confirmPassword %>"
+                    />
                 </div>
             </div>  
         </div>

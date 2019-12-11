@@ -6,8 +6,8 @@ const commentSchema = new Schema({
     content: {
         type: String,
         required: true,
-        minlength: 10,
-        maxlength: 150
+        minlength: 4,
+        maxlength: 100
     },
     created: { 
         type: Date, 

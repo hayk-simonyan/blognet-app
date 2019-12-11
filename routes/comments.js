@@ -1,19 +1,41 @@
 const express = require('express');
 
-const middleware = require('../middleware');
-
+const commentsMiddleware = require('../middleware/comments');
 const commentsController = require('../controllers/comments');
 
 const router = express.Router({ mergeParams: true });
 
+const {
+    isLoggedIn,
+    checkCommentOwnership,
+    checkCommentsContent
+} = commentsMiddleware;
+const {
+    postCreateComment,
+    putUpdateComment,
+    deleteComment
+} = commentsController;
+
 router.route('/')
     // CREATE
-    .post(middleware.isLoggedIn, commentsController.postCreateComment);
+    .post(
+        isLoggedIn,
+        [
+            checkCommentsContent
+        ],
+        postCreateComment
+    );
 
 router.route('/:commentId')
     // UPDATE
-    .put(middleware.checkCommentOwnership, commentsController.putUpdateComment)
+    .put(
+        checkCommentOwnership, 
+        [
+            checkCommentsContent
+        ],
+        putUpdateComment
+    )
     // DELETE
-    .delete(middleware.checkCommentOwnership, commentsController.deleteComment);
+    .delete(checkCommentOwnership, deleteComment);
 
 module.exports = router;

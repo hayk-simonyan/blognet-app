@@ -1,5 +1,3 @@
-const createError = require('http-errors');
-const errorHandler = require('errorhandler');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -14,7 +12,6 @@ const LocalStrategy = require('passport-local').Strategy;
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 
-const errorObj = require('./middleware/errors');
 const articlesRouuter = require('./routes/articles');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
@@ -88,14 +85,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-if(!isProduction) {
-  app.use(errorHandler());
-}
-
-app.use(errorObj.logErrors);
-app.use(errorObj.clientErrorHandler);
-app.use(errorObj.errorHandler);
 
 app.use((req, res, next) => {
   res.locals.user = req.user;

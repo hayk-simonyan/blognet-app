@@ -1,30 +1,62 @@
 const express = require('express');
 const router = express.Router();
 
+const adminMiddlewares = require('../middleware/admin');
 const adminController = require('../controllers/admin');
-const middlewareObj = require('../middleware');
+
+const { 
+  isLoggedIn,
+  checkArticleOwnership,
+  checkPostsTitle,
+  checkPostsImage,
+  checkPostsContent
+} = adminMiddlewares;
+
+const {
+  getNew,
+  postCreate,
+  getMyPosts,
+  getEdit,
+  putUpdate,
+  deleteDelete
+} = adminController;
 
 router.route('/new')
   // NEW
-  .get(middlewareObj.isLoggedIn, adminController.getNew);
+  .get(isLoggedIn, getNew);
 
 router.route('/')
   // CREATE
-  .post(middlewareObj.isLoggedIn, adminController.postCreate);
+  .post(
+    isLoggedIn, 
+    [
+      checkPostsTitle,
+      checkPostsImage,
+      checkPostsContent
+    ],
+    postCreate
+  );
 
 router.route('/my-posts')
-  .get(middlewareObj.isLoggedIn, adminController.getMyPosts);
-
+  .get(isLoggedIn, getMyPosts);
 
 router.route('/:id/edit')
   // EDIT
-  .get(middlewareObj.checkArticleOwnership, adminController.getEdit);
+  .get(checkArticleOwnership, getEdit);
 
 router.route('/:id')
   // UPDATE
-  .put(middlewareObj.checkArticleOwnership, adminController.putUpdate)
+  .put(
+    checkArticleOwnership,
+    [
+      checkPostsTitle,
+      checkPostsImage,
+      checkPostsContent
+    ],
+    putUpdate
+  )
   // DELETE
-  // .delete(middlewareObj.checkArticlerOwnership, adminController.deleteDelete);
-  .delete(middlewareObj.checkArticleOwnership, adminController.deleteDelete);
+  // .delete(middlewareObj.checkArticlerOwnership, deleteDelete);
+  .delete(checkArticleOwnership, deleteDelete);
 
 module.exports = router;

@@ -2,18 +2,39 @@
 
 <div class="my-md-4">
     <h1 class="text-primary my-md-3">Add new Article</h1>
-    <form action="/articles" method="POST">
+    <form action="/articles" method="POST" novalidate>
         <div class="form-group">
-            <label for="inputTitle">Article Title</label>
-            <input type="text" name="title" class="form-control" id="inputTitle" aria-describedby="emailHelp" placeholder="Your Post Title" required>
+            <label for="inputTitle">Title</label>
+            <input 
+                type="text" 
+                name="title" 
+                class="form-control <%= validationErrors.find(e => e.param === 'title') ? 'border border-danger' : '' %>"
+                id="inputTitle" 
+                aria-describedby="emailHelp" 
+                placeholder="Your Post Title" 
+                value="<%= prevInputs.title %>"
+            />
         </div>
         <div class="form-group">
-            <label for="inputImage">Article Image</label>
-            <input type="text" name="image" class="form-control" id="inputImage" aria-describedby="emailHelp" placeholder="Your Post Image Url" required>
+            <label for="inputImage">Image</label>
+            <input 
+                type="text" 
+                name="image" 
+                class="form-control <%= validationErrors.find(e => e.param === 'image') ? 'border border-danger' : '' %>" 
+                id="inputImage" 
+                aria-describedby="emailHelp" 
+                placeholder="Your Post Image Url"
+                value="<%= prevInputs.image %>"
+            />
         </div>
         <div class="form-group">
-            <label for="inputContent">Article Content</label>
-            <textarea class="form-control" name="content" id="inputContent" rows="30" placeholder="Your Post Content"></textarea>
+            <label for="inputContent">Content</label>
+            <textarea 
+                class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
+                name="content" 
+                id="inputContent" 
+                rows="30" 
+                placeholder="Your Post Content"><%= prevInputs.content %></textarea>
         </div>
         <input type="submit" class="btn btn-primary" value="Post">
         <!-- <button type="submit" class="btn btn-primary">Post</button> -->

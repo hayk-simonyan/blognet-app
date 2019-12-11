@@ -21,7 +21,7 @@ exports.getShow = (req, res, next) => {
         .populate('comments')
         .exec()
             .then(foundArticle => {
-                res.render('articles/show', { article: foundArticle });
+                res.render('articles/show', { article: foundArticle, validationErrors: [] });
             })
             .catch(err => {
                 const error = new Error(err);

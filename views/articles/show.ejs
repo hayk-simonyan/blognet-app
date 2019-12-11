@@ -15,10 +15,15 @@
 <div class="card p-3">
     <h2 class="text-primary my-md-3">Comments</h2>
 
-    <form action="/articles/<%= article._id %>/comments" method="POST">
+    <form action="/articles/<%= article._id %>/comments" method="POST" novalidate>
         <div class="form-group">
             <label for="inputContent">Add comment</label>
-            <textarea class="form-control" name="content" id="inputContent" rows="3" placeholder="Type here"></textarea>
+            <textarea 
+                class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
+                name="content"
+                id="inputContent"
+                rows="3"
+                placeholder="Type here"></textarea>
         </div>
         <input type="submit" class="btn btn-primary" value="Add Comment">
     </form>
@@ -43,7 +48,7 @@
                 <% } %>
             </div>
             <div id="<%= comment._id %>" style="display: none;">
-                <form action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+                <form action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" novalidate>
                     <div class="form-group">
                         <label for="<%= comment._id %>">Edit comment</label>
                         <textarea class="form-control" name="content" id="<%= comment._id %>" rows="3" placeholder="Type here"><%= comment.content %></textarea>

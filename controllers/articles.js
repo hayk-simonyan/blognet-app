@@ -1,19 +1,39 @@
 const Article = require('../models/article');
 
+const ITEMS_PER_PAGE = 9;
+
 exports.getHomePage = (req, res) => {
     res.redirect('/articles');
 };
 
 exports.getIndex = (req, res, next) => {
-    Article.find({})
+    const page = +req.query.page || 1;
+    let totalArticles;
+
+    Article.find()
+        .countDocuments()
+        .then(numArticles => {
+        totalArticles = numArticles;
+        return Article.find()
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .limit(ITEMS_PER_PAGE);
+        })
         .then(allArticles => {
-            res.render('articles/index', { allArticles: allArticles });
+            res.render('articles/index', { 
+                allArticles: allArticles,
+                currentPage: page,
+                hasNextPage: ITEMS_PER_PAGE * page < totalArticles,
+                hasPreviousPage: page > 1,
+                nextPage: page + 1,
+                previousPage: page - 1,
+                lastPage: Math.ceil(totalArticles / ITEMS_PER_PAGE)
+            });
         })
         .catch(err => {
             const error = new Error(err);
             error.httpStatusCode = 500;
             return next(error);
-        })
+        });
 };
 
 exports.getShow = (req, res, next) => {

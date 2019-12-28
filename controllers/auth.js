@@ -90,8 +90,6 @@ userController.postLogin = (req, res, next) => {
             { prevInputs: prevInputs, validationErrors: validationErrors.array() });
     }
     passport.authenticate('local')(req, res, (err, user) => {
-        if(err) console.log(err);
-        if(!user) console.log(user)
         User.findOne({ username: req.body.username })
             .then(user => {
                 req.flash('success', 'Welcome back ' + req.user.username)
@@ -102,7 +100,7 @@ userController.postLogin = (req, res, next) => {
                 console.log(err)
                 req.flash('error','Wrong username')
                 res.redirect('/login')
-            })       
+            })     
     });
 };
 

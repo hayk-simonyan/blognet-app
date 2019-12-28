@@ -1,0 +1,21 @@
+<section class="text-center my-4">
+    <% if (currentPage !== 1 && previousPage !== 1) { %>
+        <a class="btn btn-primary" href="?page=1">1</a>
+    <% } %>
+    <% if (previousPage - 1 > 1) { %>
+        <span class="mx-1">......</span>
+    <% } %>
+    <% if (hasPreviousPage) { %>
+        <a class="btn btn-primary" href="?page=<%= previousPage %>"><%= previousPage %></a class="btn btn-primary">
+    <% } %>
+    <a class="btn btn-primary active" href="?page=<%= currentPage %>" class="active"><%= currentPage %></a>
+    <% if (hasNextPage) { %>
+        <a class="btn btn-primary" href="?page=<%= nextPage %>"><%= nextPage %></a>
+    <% } %>
+    <% if (nextPage + 1 < lastPage) { %>
+        <span class="mx-1">......</span>
+    <% } %>
+    <% if (lastPage !== currentPage && nextPage !== lastPage) { %>
+        <a class="btn btn-primary" href="?page=<%= lastPage %>"><%= lastPage %></a>
+    <% } %>
+</section>

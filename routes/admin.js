@@ -56,7 +56,6 @@ router.route('/:id')
     putUpdate
   )
   // DELETE
-  // .delete(middlewareObj.checkArticlerOwnership, deleteDelete);
   .delete(checkArticleOwnership, deleteDelete);
 
 module.exports = router;

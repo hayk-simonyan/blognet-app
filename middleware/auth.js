@@ -5,10 +5,11 @@ const User = require('../models/user');
 const authMiddlewares = {};
 
 authMiddlewares.checkUsername = check('username')
+    .isLength({min: 4, max: 20})
+    .withMessage('Username should be from 4 to 20 characters long')
     .isAlphanumeric()
     .withMessage('Username should contain letters and numbers only')
-    .isLength({min: 4, max: 20})
-    .withMessage('Username should be from 4 to 20 characters long');
+
     
 authMiddlewares.compareUsername = check('username')
     .custom((value, {req}) => {
@@ -40,7 +41,7 @@ authMiddlewares.checkPassword = body('password')
 
 authMiddlewares.checkConfirmPassowrd = body('confirmPassword', 'Passwords should match')
     .custom((value, { req }) => { 
-        if(value !== req.body.password) { 
+        if(value !== req.body.password || !value) { 
             throw new Error('Passwords should match')
         } 
         return true 

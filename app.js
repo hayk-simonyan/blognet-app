@@ -99,9 +99,9 @@ app.use(authRouter);
 app.use('/articles/:id/comments', commentsRouter);
 app.use(errorsRouter);
 
-// app.use((error, req, res, next) => {
-//   res.status(500).render("500");
-// });
+app.use((error, req, res, next) => {
+  res.status(500).redirect('/500');
+});
 
 // catch 404 and forward to error handler
 // app.use((req, res, next) => {

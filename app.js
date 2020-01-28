@@ -48,14 +48,16 @@ app.use(cookieParser());
 app.use(flash());
 
 //express-session config
-app.use(session({
-  secret: 'session-cars',
-  cookie: {
-    maxAge: 60000
-  },
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: 'session-cars',
+    cookie: {
+      maxAge: 60000
+    },
+    resave: false,
+    saveUninitialized: false
+  })
+);
 // express-session & connect-mongodb-session
 // const dbURL = 'mongodb://localhost/cars';
 // const store = new MongoDBStroe({

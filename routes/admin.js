@@ -4,7 +4,7 @@ const router = express.Router();
 const adminMiddlewares = require('../middleware/admin');
 const adminController = require('../controllers/admin');
 
-const { 
+const {
   isLoggedIn,
   checkArticleOwnership,
   checkPostsTitle,
@@ -21,38 +21,33 @@ const {
   deleteDelete
 } = adminController;
 
-router.route('/new')
+router
+  .route('/new')
   // NEW
   .get(isLoggedIn, getNew);
 
-router.route('/')
+router
+  .route('/')
   // CREATE
   .post(
-    isLoggedIn, 
-    [
-      checkPostsTitle,
-      checkPostsImage,
-      checkPostsContent
-    ],
+    isLoggedIn,
+    [checkPostsTitle, checkPostsImage, checkPostsContent],
     postCreate
   );
 
-router.route('/my-posts')
-  .get(isLoggedIn, getMyPosts);
+router.route('/my-posts').get(isLoggedIn, getMyPosts);
 
-router.route('/:id/edit')
+router
+  .route('/:id/edit')
   // EDIT
   .get(checkArticleOwnership, getEdit);
 
-router.route('/:id')
+router
+  .route('/:id')
   // UPDATE
   .put(
     checkArticleOwnership,
-    [
-      checkPostsTitle,
-      checkPostsImage,
-      checkPostsContent
-    ],
+    [checkPostsTitle, checkPostsImage, checkPostsContent],
     putUpdate
   )
   // DELETE

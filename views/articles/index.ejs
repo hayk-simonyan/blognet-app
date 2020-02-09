@@ -24,7 +24,7 @@
           allArticles[allArticles.length-1].created.getYear() + 1900 %>
         </small>
         <a
-          class="btn btn-primary"
+          class="btn btn-dark"
           href="/allArticles[allArticles.length-1]s/<%= allArticles[allArticles.length-1]._id %>"
           >Read More</a
         >
@@ -52,7 +52,7 @@
             Published - <%= article.created.getMonth() + 1 %>/<%=
             article.created.getDate() %>/<%= article.created.getYear() + 1900 %>
           </small>
-          <a class="btn btn-primary" href="/articles/<%= article._id %>"
+          <a class="btn btn-dark" href="/articles/<%= article._id %>"
             >Read More</a
           >
         </div>

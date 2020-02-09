@@ -1,37 +1,5 @@
 body {
   padding-top: 100px;
-  background-color: #afb9ff;
-}
-
-a {
-  color: #1f2565;
-}
-a:hover {
-  color: #254dfd;
-}
-a:active {
-  color: #254dfd;
-}
-
-.btn-outline-primary {
-  color: #254dfd;
-  border-color: #254dfd;
-}
-.btn-outline-primary:hover {
-  border-color: #1f2565;
-  background-color: #758cfe;
-  color: #1f2565;
-}
-.btn-outline-primary:active {
-  background-color: #758cfe;
-}
-
-.bg-light {
-  background-color: #758cfe !important;
-}
-
-.card {
-  background-color: #d7dcf7;
 }
 
 .card img {

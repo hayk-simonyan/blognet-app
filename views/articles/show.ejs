@@ -1,65 +1,85 @@
 <%- include ../includes/header %>
 
 <div class="card mb-3">
-    <img src="<%= article.image %>" class="card-img-top h-100" alt="...">
-    <div class="card-body">
-        <h5 class="card-title text-center mb-4 mb-md-5"><%= article.title %></h5>
-        <p class="card-text"><%= article.content %></p>
-        <p class="card-text"><small class="text-muted">
-            Published - 
-            <%= article.created.getMonth() + 1 %>/<%= article.created.getDate() %>/<%= article.created.getYear() + 1900 %>
-        </small></p>
-    </div>
+  <img src="<%= article.image %>" class="card-img-top h-100" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title text-center mb-4 mb-md-5"><%= article.title %></h5>
+    <p class="card-text"><%= article.content %></p>
+    <p class="card-text">
+      <small class="text-muted">
+        Published - <%= article.created.getMonth() + 1 %>/<%=
+        article.created.getDate() %>/<%= article.created.getYear() + 1900 %>
+      </small>
+    </p>
+  </div>
 </div>
 
 <div class="card p-3">
-    <h2 class="text-primary my-md-3">Comments</h2>
+  <h2 class="text-dark my-md-3">Comments</h2>
 
-    <form action="/articles/<%= article._id %>/comments" method="POST" novalidate>
-        <div class="form-group">
-            <label for="inputContent">Add comment</label>
-            <textarea 
-                class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
-                name="content"
-                id="inputContent"
-                rows="3"
-                placeholder="Type here"></textarea>
-        </div>
-        <input type="submit" class="btn btn-primary" value="Add Comment">
-    </form>
-
-    <div class="my-3">
-        <% article.comments.forEach(comment => { %>
-            <div class="my-3">
-                <strong><%= comment.author.username %></strong>
-                <span class="float-right">
-                    <%= comment.created.getHours() %>:<%= comment.created.getMinutes() %>
-                    <%= comment.created.getMonth() + 1 %>/<%= comment.created.getDate() %>/<%= comment.created.getYear() + 1900 %>
-                </span>
-                <p><%= comment.content %></p>
-                <% if(user && comment.author.id.equals(user._id)) { %>
-                    <a  class="btn btn-sm btn-warning float-left mr-2" 
-                        onclick="toggleEditForm(`<%= comment._id %>`)">
-                        Edit
-                    </a>
-                    <form id="delete-form" action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                <% } %>
-            </div>
-            <div id="<%= comment._id %>" style="display: none;">
-                <form action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" novalidate>
-                    <div class="form-group">
-                        <label for="<%= comment._id %>">Edit comment</label>
-                        <textarea class="form-control" name="content" id="<%= comment._id %>" rows="3" placeholder="Type here"><%= comment.content %></textarea>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Edit Comment">
-                </form>
-            </div>
-        <% }) %>
+  <form action="/articles/<%= article._id %>/comments" method="POST" novalidate>
+    <div class="form-group">
+      <label for="inputContent">Add comment</label>
+      <textarea
+        class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
+        name="content"
+        id="inputContent"
+        rows="3"
+        placeholder="Type here"
+      ></textarea>
     </div>
+    <input type="submit" class="btn btn-dark" value="Add Comment" />
+  </form>
 
+  <div class="my-3">
+    <% article.comments.forEach(comment => { %>
+    <div class="my-3">
+      <strong><%= comment.author.username %></strong>
+      <span class="float-right">
+        <%= comment.created.getHours() %>:<%= comment.created.getMinutes() %>
+        <%= comment.created.getMonth() + 1 %>/<%= comment.created.getDate()
+        %>/<%= comment.created.getYear() + 1900 %>
+      </span>
+      <p><%= comment.content %></p>
+      <% if(user && comment.author.id.equals(user._id)) { %>
+      <a
+        class="btn btn-sm btn-warning float-left mr-2"
+        onclick="toggleEditForm(`<%= comment._id %>`)"
+      >
+        Edit
+      </a>
+      <form
+        id="delete-form"
+        action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=DELETE"
+        method="POST"
+      >
+        <button class="btn btn-sm btn-danger">Delete</button>
+      </form>
+      <% } %>
+    </div>
+    <div id="<%= comment._id %>" style="display: none;">
+      <form
+        action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=PUT"
+        method="POST"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="<%= comment._id %>">Edit comment</label>
+          <textarea
+            class="form-control"
+            name="content"
+            id="<%= comment._id %>"
+            rows="3"
+            placeholder="Type here"
+          >
+<%= comment.content %></textarea
+          >
+        </div>
+        <input type="submit" class="btn btn-primary" value="Edit Comment" />
+      </form>
+    </div>
+    <% }) %>
+  </div>
 </div>
-
 
 <%- include ../includes/footer %>

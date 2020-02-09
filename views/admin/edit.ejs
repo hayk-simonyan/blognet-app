@@ -1,44 +1,51 @@
 <%- include ../includes/header %>
 
 <div class="my-md-4">
-    <h1 class="text-primary my-md-3">Edit Article</h1>
-    <form action="/articles/<%= article._id %>?_method=PUT" method="POST" novalidate>
-        <div class="form-group">
-            <label for="inputTitle">Title</label>
-            <input 
-                type="text" 
-                name="title" 
-                class="form-control <%= validationErrors.find(e => e.param === 'title') ? 'border border-danger' : '' %>"
-                id="inputTitle" 
-                aria-describedby="emailHelp" 
-                placeholder="Your Post Title"
-                value="<%= article.title %>"
-            />
-        </div>
-        <div class="form-group">
-            <label for="inputImage">Image</label>
-            <input 
-                type="text" 
-                name="image" 
-                class="form-control <%= validationErrors.find(e => e.param === 'image') ? 'border border-danger' : '' %>" 
-                id="inputImage" 
-                aria-describedby="emailHelp" 
-                placeholder="Your Post Image Url"
-                value="<%= article.image %>"
-            />
-        </div>
-        <div class="form-group">
-            <label for="inputContent">Content</label>
-            <textarea 
-                class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
-                name="content" 
-                id="inputContent" 
-                rows="30" 
-                placeholder="Your Post Content"><%= article.content %></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Edit</button>
-        <a href="/articles" class="float-right">Go Back</a>
-    </form>
+  <h1 class="text-dark my-md-3">Edit Article</h1>
+  <form
+    action="/articles/<%= article._id %>?_method=PUT"
+    method="POST"
+    novalidate
+  >
+    <div class="form-group">
+      <label for="inputTitle">Title</label>
+      <input
+        type="text"
+        name="title"
+        class="form-control <%= validationErrors.find(e => e.param === 'title') ? 'border border-danger' : '' %>"
+        id="inputTitle"
+        aria-describedby="emailHelp"
+        placeholder="Your Post Title"
+        value="<%= article.title %>"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputImage">Image</label>
+      <input
+        type="text"
+        name="image"
+        class="form-control <%= validationErrors.find(e => e.param === 'image') ? 'border border-danger' : '' %>"
+        id="inputImage"
+        aria-describedby="emailHelp"
+        placeholder="Your Post Image Url"
+        value="<%= article.image %>"
+      />
+    </div>
+    <div class="form-group">
+      <label for="inputContent">Content</label>
+      <textarea
+        class="form-control <%= validationErrors.find(e => e.param === 'content') ? 'border border-danger' : '' %>"
+        name="content"
+        id="inputContent"
+        rows="30"
+        placeholder="Your Post Content"
+      >
+<%= article.content %></textarea
+      >
+    </div>
+    <button type="submit" class="btn btn-dark">Edit</button>
+    <a href="/articles" class="float-right">Go Back</a>
+  </form>
 </div>
 
 <%- include ../includes/footer %>
